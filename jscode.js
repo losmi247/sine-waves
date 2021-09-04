@@ -4,7 +4,8 @@ var something;
 
 function init() {
   
-  something = document.getElementById("something").value;
+  something = 1;
+  document.getElementById("something").value = something;
   drawsomething(something);
 }
 
