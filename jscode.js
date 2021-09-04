@@ -10,7 +10,7 @@ function init() {
 }
 
 function drawsomething(something) {
-  var Canvas = document.getElementById("animation");
+  var Canvas = document.getElementById('animation');
   var Ctx = Canvas.getContext('2d');
   Ctx.clearRect(0, 0, Canvas.width, Canvas.height);
   
