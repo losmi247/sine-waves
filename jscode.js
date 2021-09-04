@@ -14,7 +14,7 @@ function drawsomething(something) {
   var Ctx = Canvas.getContext('2d');
   Ctx.clearRect(0, 0, Canvas.width, Canvas.height);
   
-  ctx.moveTo(0, 0);
-  ctx.lineTo(200, 100);
-  ctx.stroke();
+  Ctx.moveTo(0, 0);
+  Ctx.lineTo(200, 100);
+  Ctx.stroke();
 }
