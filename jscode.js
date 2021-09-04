@@ -17,6 +17,6 @@ function drawsomething(something) {
   Ctx.lineWidth = 14;
   Ctx.strokeStyle = 'green';
   Ctx.moveTo(0, 0);
-  Ctx.lineTo(1, 1);
+  Ctx.lineTo(100, 100);
   Ctx.stroke();
 }
