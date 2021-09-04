@@ -4,6 +4,6 @@ var something;
 
 function init() {
   
-  document.getElementById("something").value = something;
+  something = document.getElementById("something").value;
   
 }
