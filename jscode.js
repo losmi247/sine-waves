@@ -15,6 +15,6 @@ function drawsomething(something) {
   Ctx.clearRect(0, 0, Canvas.width, Canvas.height);
   
   Ctx.moveTo(0, 0);
-  Ctx.lineTo(200, 100);
+  Ctx.lineTo(1, 1);
   Ctx.stroke();
 }
