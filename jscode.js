@@ -14,6 +14,8 @@ function drawsomething(something) {
   var Ctx = Canvas.getContext('2d');
   Ctx.clearRect(0, 0, Canvas.width, Canvas.height);
   
+  Ctx.lineWidth = 14;
+  Ctx.strokeStyle = 'green';
   Ctx.moveTo(0, 0);
   Ctx.lineTo(1, 1);
   Ctx.stroke();
