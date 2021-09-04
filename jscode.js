@@ -9,7 +9,7 @@ function init() {
   drawsomething(something);
 }
 
-function drawsomething(size) {
+function drawsomething(something) {
   var Canvas = document.getElementById("animation");
   var Ctx = Canvas.getContext('2d');
   Ctx.clearRect(0, 0, Canvas.width, Canvas.height);
