@@ -2,6 +2,8 @@
 <html lang="en-US">
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
+
 
 <head>
 <title>Animation: something </title>
@@ -11,25 +13,47 @@
   
 <body onload=init()>  
 <div id="wrapper">
-<h1>Something</h1>
+<h1>Sine Wave Animation</h1>
   
-<table>
+<p>
+The following animation simulates a rightwards propagating sine wave whose equation is: $$y=A\sin(wt-kx)$$ Here \(A\) denotes the wave's amplitude, \(w\) its angular frequency (\(w=2 \pi f \), \(f\) being the ordinary frequency) and \(k\) its wavenumber (\(k=\frac{w}{u}\), \(u\) being the speed of the wave).
+</p>  
+  
+
+<table style="display: inline-block;">
+<caption>Main wave quantities</caption>
 <tr>
-  <th>What what what</th>
-    <td>nothing</td>
+  <th>Amplitude [px]</th>
+    <td>\(A = \) <input type="number" id = "amplitude"  name = "amp" step = "any" onchange = "update()" style="width: 60px;" > </td>
 </tr>
 <tr> 
-  <th>what</th>
-    <td>nothing</td>
+  <th>Frequency [Hz]</th>
+    <td>\(f = \) <input type="number" min = "0.05" max = "10" id = "frequency" name = "f" step = "any" onchange = "update()" style="width: 60px;"> </td>
 </tr>
 <tr>
-  <th>Variable</th>
-    <td>variable = <input type="number" id="something" name="idk" step="any" /> </td>
+  <th>Wave speed [px/s]</th>
+    <td>\(u = \) <input type="number" id="speed" name="speed" step="any" onchange = "update()" style="width: 60px;"> </td>
       
 </tr>
 </table> 
+
+<table style="display: inline-block;">
+<caption>Auxiliary quantities</caption>
+<tr>
+  <th>Angular frequency [Hz]</th>
+    <td>\(w=\) <output id="angfreq"></output></td>
+</tr>
+<tr>
+  <th>Wavenumber [1/px]</th>
+    <td>\(k=\) <output id="wavenumber"></output></td>
+</tr>
+</table>
   
 <br/>  
+
+<div class="center">
+<p id="timer" style="color:black;"></p>
+</div>
   
 <canvas id="animation" width="500" height="500" style="border: 1px solid black;">
   CANVAS NOT SUPPORTED IN THIS BROWSER!
@@ -37,12 +61,12 @@
   
   
   
-  
-  
-  
-  
-  
-  
+<div class="center">
+<p id="BoxSize">Size of the box = 500px</p>
+<p id="buttons"><input type="button" class="button" name="play" value="Play" onclick="play()">
+<input type = "button" class = "button" name = "stop" value = "Stop" onclick = "stop()">
+</p> 
+</div>  
   
   
   
