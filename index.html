@@ -16,7 +16,7 @@
 <h1>Sine Wave Animation</h1>
   
 <p>
-The first two animations simulate rightwards or leftwards propagating sine waves whose equations are: $$y=A\sin(wt-kx)$$ Here \(A\) denotes the wave's amplitude, \(w\) its angular frequency (\(w=2 \pi f \), \(f\) being the ordinary frequency) and \(k\) its wavenumber (\(k=\frac{w}{u}\), \(u\) being the speed of the wave). </p> 
+The first two animations simulate rightwards or leftwards propagating sine waves whose equations are: $$y=A\sin(wt-kx+\varphi)$$ Here \(A\) denotes the wave's amplitude, \(w\) its angular frequency (\(w=2 \pi f \), \(f\) being the ordinary frequency), \(k\) its wavenumber (\(k=\frac{w}{u}\), \(u\) being the speed of the wave), and \(\varphi\) its phase shift. </p> 
 
 <p>
 The third animation displays the wave resulting from the superposition, that is, the sum, of the first two waves. Using the trigonometric identity ,The equation of the resulting wave can be derived in the following way:
@@ -43,6 +43,11 @@ Use the following tables to modify the parameters of the waves. You can simulate
   <th>Wave speed [px/s]</th>
     <td>\(u_1 = \) <input type="number" id="speed1" name="speed1" step="any" onchange = "update()" style="width: 60px;"> </td>
       
+</tr>
+<tr>
+  <th>Phase shift [rad]</th>
+    <td>\(\varphi_1 = \) <input type="number" id="phase1" name = "phase1" step = "any" 
+    onchange = "update()" style="width: 60px;"> </td>
 </tr>
 </table> 
 
@@ -75,7 +80,11 @@ Use the following tables to modify the parameters of the waves. You can simulate
 <tr>
   <th>Wave speed [px/s]</th>
     <td>\(u_2 = \) <input type="number" id="speed2" name="speed2" step="any" onchange = "update()" style="width: 60px;"> </td>
-      
+</tr>
+<tr>
+  <th>Phase shift [rad]</th>
+    <td>\(\varphi_2 = \) <input type="number" id="phase2" name = "phase2" step = "any" 
+    onchange = "update()" style="width: 60px;"> </td>
 </tr>
 </table> 
 
