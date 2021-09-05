@@ -1,53 +1,112 @@
 "use strict";
 
 var time,dt;
-var amplitude,frequency,speed;
-var omega,k;
+var amplitude1,frequency1,speed1;
+var omega1,k1;
+var amplitude2,frequency2,speed2;
+var omega2,k2;
 var scale;
 
 function init(){
-  stopped = 0;
+	stopped = 0;
   
-  amplitude = 8;
-  frequency = 0.5;
-  speed = 10;
-  document.getElementById("amplitude").value = amplitude;
-  document.getElementById("frequency").value = frequency;
-  document.getElementById("speed").value = speed;
-  omega = frequency*2*Math.PI;
-  k = omega/speed;
-  document.getElementById("angfreq").innerHTML = omega.toPrecision(3);
-  document.getElementById("wavenumber").innerHTML = k.toPrecision(3);
-
+  amplitude1 = 8;
+  frequency1 = 0.5;
+  speed1 = 10;
+  document.getElementById("amplitude1").value = amplitude1;
+  document.getElementById("frequency1").value = frequency1;
+  document.getElementById("speed1").value = speed1;
+  omega1 = frequency1*2*Math.PI;
+  k1 = omega1/speed1;
+  document.getElementById("angfreq1").innerHTML = omega1.toPrecision(3);
+  document.getElementById("wavenumber1").innerHTML = k1.toPrecision(3);
+  
+  amplitude2 = 8;
+  frequency2 = 0.5;
+  speed2 = 10;
+  document.getElementById("amplitude2").value = amplitude2;
+  document.getElementById("frequency2").value = frequency2;
+  document.getElementById("speed2").value = speed2;
+  omega2 = frequency2*2*Math.PI;
+  k2 = omega2/speed2;
+  document.getElementById("angfreq2").innerHTML = omega2.toPrecision(3);
+  document.getElementById("wavenumber2").innerHTML = k2.toPrecision(3);
   
   time = 0;
   dt = 20;
   scale = 5;
-  draw();
+  draw1();
   time = 0;
   document.getElementById("timer").innerHTML = "t = 0.00s";
-  
-  drawaxes();
 }
 
 function update(){
-  var a1 = document.getElementById("amplitude").value;
-  var f1 = document.getElementById("frequency").value;
-  var u1 = document.getElementById("speed").value;
-  amplitude = a1;
-  frequency = f1;
-  speed = u1;
-  omega = frequency*2*Math.PI;
-  k = omega/speed;
-  document.getElementById("angfreq").innerHTML = omega.toPrecision(2);
-  document.getElementById("wavenumber").innerHTML = k.toPrecision(2);
+	var a1 = document.getElementById("amplitude1").value;
+  var f1 = document.getElementById("frequency1").value;
+  var u1 = document.getElementById("speed1").value;
+  amplitude1 = a1;
+  frequency1 = f1;
+  speed1 = u1;
+  omega1 = frequency1*2*Math.PI;
+  k1 = omega1/speed1;
+  document.getElementById("angfreq1").innerHTML = omega1.toPrecision(3);
+  document.getElementById("wavenumber1").innerHTML = k1.toPrecision(3);
   time -= dt*1e-3;
-  draw();
+  draw1();
+  
+  var a2 = document.getElementById("amplitude2").value;
+  var f2 = document.getElementById("frequency2").value;
+  var u2 = document.getElementById("speed2").value;
+  amplitude2 = a2;
+  frequency2 = f2;
+  speed2 = u2;
+  omega2 = frequency2*2*Math.PI;
+  k2 = omega2/speed2;
+  document.getElementById("angfreq2").innerHTML = omega2.toPrecision(3);
+  document.getElementById("wavenumber2").innerHTML = k2.toPrecision(3);
+  time -= dt*1e-3;
+  draw2();
 }
 
-function drawaxes(){
-  var cnv = document.getElementById('animation');
-  var ctx = cnv.getContext('2d');
+function drawaxes1(){
+	var cnv = document.getElementById('wave1');
+	var ctx = cnv.getContext('2d');
+  
+  var w = cnv.width,h = cnv.height;
+  
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = 'black';
+  ctx.beginPath();
+  ctx.moveTo(0, h/2);
+  ctx.lineTo(w, h/2);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(w/2,0);
+  ctx.lineTo(w/2,h);
+  ctx.stroke();
+}
+
+function drawaxes2(){
+	var cnv = document.getElementById('wave2');
+	var ctx = cnv.getContext('2d');
+  
+  var w = cnv.width,h = cnv.height;
+  
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = 'black';
+  ctx.beginPath();
+  ctx.moveTo(0, h/2);
+  ctx.lineTo(w, h/2);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(w/2,0);
+  ctx.lineTo(w/2,h);
+  ctx.stroke();
+}
+
+function drawaxes3(){
+	var cnv = document.getElementById('sum');
+	var ctx = cnv.getContext('2d');
   
   var w = cnv.width,h = cnv.height;
   
@@ -67,46 +126,130 @@ let id = null;
 var stopped = 0;
 
 function stop(){
-  stopped = 1;
-  window.clearInterval(id);
+	stopped = 1;
+	window.clearInterval(id);
 }
 
 function play(){
-  if(stopped == 0) time = 0;
+	if(stopped == 0 || (stopped == 1 && time > 10)) time = 0;
   stopped = 0;
 
-  /* var cnv = document.getElementById('animation'); 
-  var ctx = cnv.getContext('2d');
+	/* var cnv = document.getElementById('animation'); 
+	var ctx = cnv.getContext('2d');
   ctx.clearRect(0,0,cnv.width,cnv.height);
   drawaxes(); */
  
   window.clearInterval(id);
-  id = window.setInterval(draw,dt);
+  id = window.setInterval(draw1,dt);
 }
 
-function draw(){
-  time += dt*1e-3;
-  document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
-  if(time > 10){
-    window.clearInterval(id);
-    return;
-  }
+function draw1(){
+	time += dt*1e-3;
+	//document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
 
-  var cnv = document.getElementById('animation');
-  var ctx = cnv.getContext('2d');
+	var cnv = document.getElementById('wave1');
+	var ctx = cnv.getContext('2d');
   ctx.clearRect(0,0,cnv.width,cnv.height);
-  drawaxes();
+  drawaxes1();
   ctx.beginPath();
   
-  var dx = 0.01;
+	var dx = 0.01;
   var len = Math.round((cnv.width/2)/dx);
   ctx.strokeStyle = 'blue';
   ctx.lineWidth = 3;
   for(var i = -len+1; i <= len-1; i++){
-    var x = dx*i;
-    var y = scale*(amplitude*Math.sin(omega*time-k*(x/scale)));
+  	var x = dx*i;
+    var y = scale*(amplitude1*Math.sin(omega1*time-k1*(x/scale)));
     if(i == -len+1) ctx.moveTo(cnv.width/2+x,cnv.height/2-y);
     else ctx.lineTo(cnv.width/2+x,cnv.height/2-y);
   }
+  ctx.stroke();
+  
+  ctx.strokeStyle = 'red';
+  ctx.fillStyle = 'red';
+  ctx.beginPath();
+  ctx.moveTo(cnv.width/2,cnv.height/2);
+  var where = scale*(amplitude1*Math.sin(omega1*time));
+  ctx.lineTo(cnv.width/2,cnv.height/2-where);
+  ctx.fillRect(cnv.width/2-3,cnv.height/2-where,6,6);
+  ctx.stroke();
+  
+  time -= dt*1e-3;
+  draw2();
+  
+  if(time > 10){
+  	window.clearInterval(id);
+    return;
+  }
+}
+
+function draw2(){
+	time += dt*1e-3;
+	//document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
+
+	var cnv = document.getElementById('wave2');
+	var ctx = cnv.getContext('2d');
+  ctx.clearRect(0,0,cnv.width,cnv.height);
+  drawaxes2();
+  ctx.beginPath();
+  
+	var dx = 0.01;
+  var len = Math.round((cnv.width/2)/dx);
+  ctx.strokeStyle = 'green';
+  ctx.lineWidth = 3;
+  for(var i = -len+1; i <= len-1; i++){
+  	var x = dx*i;
+    var y = scale*(amplitude2*Math.sin(omega2*time-k2*(x/scale)));
+    if(i == -len+1) ctx.moveTo(cnv.width/2+x,cnv.height/2-y);
+    else ctx.lineTo(cnv.width/2+x,cnv.height/2-y);
+  }
+  ctx.stroke();
+  
+  ctx.strokeStyle = 'red';
+  ctx.fillStyle = 'red';
+  ctx.beginPath();
+  ctx.moveTo(cnv.width/2,cnv.height/2);
+  var where = scale*(amplitude2*Math.sin(omega2*time));
+  ctx.lineTo(cnv.width/2,cnv.height/2-where);
+  ctx.fillRect(cnv.width/2-3,cnv.height/2-where,6,6);
+  ctx.stroke();
+  
+  time -= dt*1e-3;
+  drawsum();
+}
+
+function drawsum(){
+	time += dt*1e-3;
+	document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
+
+	var cnv = document.getElementById('sum');
+	var ctx = cnv.getContext('2d');
+  ctx.clearRect(0,0,cnv.width,cnv.height);
+  drawaxes3();
+  ctx.beginPath();
+  
+	var dx = 0.01;
+  var len = Math.round((cnv.width/2)/dx);
+  ctx.strokeStyle = 'black';
+  ctx.lineWidth = 3;
+  for(var i = -len+1; i <= len-1; i++){
+  	var x = dx*i;
+    var y1 = scale*(amplitude1*Math.sin(omega1*time-k1*(x/scale)));
+    var y2 = scale*(amplitude2*Math.sin(omega2*time-k2*(x/scale)));
+    var y = y1+y2;
+    if(i == -len+1) ctx.moveTo(cnv.width/2+x,cnv.height/2-y);
+    else ctx.lineTo(cnv.width/2+x,cnv.height/2-y);
+  }
+  ctx.stroke();
+  
+  ctx.strokeStyle = 'red';
+  ctx.fillStyle = 'red';
+  ctx.beginPath();
+  ctx.moveTo(cnv.width/2,cnv.height/2);
+  var where1 = scale*(amplitude1*Math.sin(omega1*time));
+  var where2 = scale*(amplitude2*Math.sin(omega2*time));
+  var where = where1+where2;
+  ctx.lineTo(cnv.width/2,cnv.height/2-where);
+  ctx.fillRect(cnv.width/2-3,cnv.height/2-where,6,6);
   ctx.stroke();
 }
