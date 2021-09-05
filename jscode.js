@@ -1,21 +1,23 @@
 "use strict";
 
 var time,dt;
-var amplitude1,frequency1,speed1;
+var amplitude1,frequency1,speed1,phase1;
 var omega1,k1;
-var amplitude2,frequency2,speed2;
+var amplitude2,frequency2,speed2,phase2;
 var omega2,k2;
 var scale;
 
 function init(){
-	stopped = 0;
+  stopped = 0;
   
   amplitude1 = 8;
   frequency1 = 0.5;
   speed1 = 10;
+  phase1 = 0;
   document.getElementById("amplitude1").value = amplitude1;
   document.getElementById("frequency1").value = frequency1;
   document.getElementById("speed1").value = speed1;
+  document.getElementById("phase1").value = phase1;
   omega1 = frequency1*2*Math.PI;
   k1 = omega1/speed1;
   document.getElementById("angfreq1").innerHTML = omega1.toPrecision(3);
@@ -24,9 +26,11 @@ function init(){
   amplitude2 = 8;
   frequency2 = 0.5;
   speed2 = 10;
+  phase2 = 0;
   document.getElementById("amplitude2").value = amplitude2;
   document.getElementById("frequency2").value = frequency2;
   document.getElementById("speed2").value = speed2;
+  document.getElementById("phase2").value = phase2;
   omega2 = frequency2*2*Math.PI;
   k2 = omega2/speed2;
   document.getElementById("angfreq2").innerHTML = omega2.toPrecision(3);
@@ -41,36 +45,40 @@ function init(){
 }
 
 function update(){
-	var a1 = document.getElementById("amplitude1").value;
+  var a2 = document.getElementById("amplitude2").value;
+  var f2 = document.getElementById("frequency2").value;
+  var u2 = document.getElementById("speed2").value;
+  var p2 = document.getElementById("phase2").value;
+  amplitude2 = a2;
+  frequency2 = f2;
+  speed2 = u2;
+  phase2 = p2;
+  omega2 = frequency2*2*Math.PI;
+  k2 = omega2/speed2;
+  document.getElementById("angfreq2").innerHTML = omega2.toPrecision(3);
+  document.getElementById("wavenumber2").innerHTML = k2.toPrecision(3);
+  /*time -= dt*1e-3;
+  draw2();*/
+  
+  var a1 = document.getElementById("amplitude1").value;
   var f1 = document.getElementById("frequency1").value;
   var u1 = document.getElementById("speed1").value;
+  var p1 = document.getElementById("phase1").value;
   amplitude1 = a1;
   frequency1 = f1;
   speed1 = u1;
+  phase1 = p1;
   omega1 = frequency1*2*Math.PI;
   k1 = omega1/speed1;
   document.getElementById("angfreq1").innerHTML = omega1.toPrecision(3);
   document.getElementById("wavenumber1").innerHTML = k1.toPrecision(3);
   time -= dt*1e-3;
   draw1();
-  
-  var a2 = document.getElementById("amplitude2").value;
-  var f2 = document.getElementById("frequency2").value;
-  var u2 = document.getElementById("speed2").value;
-  amplitude2 = a2;
-  frequency2 = f2;
-  speed2 = u2;
-  omega2 = frequency2*2*Math.PI;
-  k2 = omega2/speed2;
-  document.getElementById("angfreq2").innerHTML = omega2.toPrecision(3);
-  document.getElementById("wavenumber2").innerHTML = k2.toPrecision(3);
-  time -= dt*1e-3;
-  draw2();
 }
 
 function drawaxes1(){
-	var cnv = document.getElementById('wave1');
-	var ctx = cnv.getContext('2d');
+  var cnv = document.getElementById('wave1');
+  var ctx = cnv.getContext('2d');
   
   var w = cnv.width,h = cnv.height;
   
@@ -87,8 +95,8 @@ function drawaxes1(){
 }
 
 function drawaxes2(){
-	var cnv = document.getElementById('wave2');
-	var ctx = cnv.getContext('2d');
+  var cnv = document.getElementById('wave2');
+  var ctx = cnv.getContext('2d');
   
   var w = cnv.width,h = cnv.height;
   
@@ -105,8 +113,8 @@ function drawaxes2(){
 }
 
 function drawaxes3(){
-	var cnv = document.getElementById('sum');
-	var ctx = cnv.getContext('2d');
+  var cnv = document.getElementById('sum');
+  var ctx = cnv.getContext('2d');
   
   var w = cnv.width,h = cnv.height;
   
@@ -126,16 +134,16 @@ let id = null;
 var stopped = 0;
 
 function stop(){
-	stopped = 1;
-	window.clearInterval(id);
+  stopped = 1;
+  window.clearInterval(id);
 }
 
 function play(){
-	if(stopped == 0 || (stopped == 1 && time > 10)) time = 0;
+  if(stopped == 0 || (stopped == 1 && time > 10)) time = 0;
   stopped = 0;
 
-	/* var cnv = document.getElementById('animation'); 
-	var ctx = cnv.getContext('2d');
+  /* var cnv = document.getElementById('animation'); 
+  var ctx = cnv.getContext('2d');
   ctx.clearRect(0,0,cnv.width,cnv.height);
   drawaxes(); */
  
@@ -144,22 +152,22 @@ function play(){
 }
 
 function draw1(){
-	time += dt*1e-3;
-	//document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
+  time += dt*1e-3;
+  //document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
 
-	var cnv = document.getElementById('wave1');
-	var ctx = cnv.getContext('2d');
+  var cnv = document.getElementById('wave1');
+  var ctx = cnv.getContext('2d');
   ctx.clearRect(0,0,cnv.width,cnv.height);
   drawaxes1();
   ctx.beginPath();
   
-	var dx = 0.01;
+  var dx = 0.01;
   var len = Math.round((cnv.width/2)/dx);
   ctx.strokeStyle = 'blue';
   ctx.lineWidth = 3;
   for(var i = -len+1; i <= len-1; i++){
-  	var x = dx*i;
-    var y = scale*(amplitude1*Math.sin(omega1*time-k1*(x/scale)));
+    var x = dx*i;
+    var y = scale*(amplitude1*Math.sin(phase1+omega1*time-k1*(x/scale)));
     if(i == -len+1) ctx.moveTo(cnv.width/2+x,cnv.height/2-y);
     else ctx.lineTo(cnv.width/2+x,cnv.height/2-y);
   }
@@ -169,7 +177,7 @@ function draw1(){
   ctx.fillStyle = 'red';
   ctx.beginPath();
   ctx.moveTo(cnv.width/2,cnv.height/2);
-  var where = scale*(amplitude1*Math.sin(omega1*time));
+  var where = scale*(amplitude1*Math.sin(phase1+omega1*time));
   ctx.lineTo(cnv.width/2,cnv.height/2-where);
   ctx.fillRect(cnv.width/2-3,cnv.height/2-where,6,6);
   ctx.stroke();
@@ -178,28 +186,28 @@ function draw1(){
   draw2();
   
   if(time > 10){
-  	window.clearInterval(id);
+    window.clearInterval(id);
     return;
   }
 }
 
 function draw2(){
-	time += dt*1e-3;
-	//document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
+  time += dt*1e-3;
+  //document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
 
-	var cnv = document.getElementById('wave2');
-	var ctx = cnv.getContext('2d');
+  var cnv = document.getElementById('wave2');
+  var ctx = cnv.getContext('2d');
   ctx.clearRect(0,0,cnv.width,cnv.height);
   drawaxes2();
   ctx.beginPath();
   
-	var dx = 0.01;
+  var dx = 0.01;
   var len = Math.round((cnv.width/2)/dx);
   ctx.strokeStyle = 'green';
   ctx.lineWidth = 3;
   for(var i = -len+1; i <= len-1; i++){
-  	var x = dx*i;
-    var y = scale*(amplitude2*Math.sin(omega2*time-k2*(x/scale)));
+    var x = dx*i;
+    var y = scale*(amplitude2*Math.sin(phase2+omega2*time-k2*(x/scale)));
     if(i == -len+1) ctx.moveTo(cnv.width/2+x,cnv.height/2-y);
     else ctx.lineTo(cnv.width/2+x,cnv.height/2-y);
   }
@@ -209,7 +217,7 @@ function draw2(){
   ctx.fillStyle = 'red';
   ctx.beginPath();
   ctx.moveTo(cnv.width/2,cnv.height/2);
-  var where = scale*(amplitude2*Math.sin(omega2*time));
+  var where = scale*(amplitude2*Math.sin(phase2+omega2*time));
   ctx.lineTo(cnv.width/2,cnv.height/2-where);
   ctx.fillRect(cnv.width/2-3,cnv.height/2-where,6,6);
   ctx.stroke();
@@ -219,23 +227,23 @@ function draw2(){
 }
 
 function drawsum(){
-	time += dt*1e-3;
-	document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
+  time += dt*1e-3;
+  document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
 
-	var cnv = document.getElementById('sum');
-	var ctx = cnv.getContext('2d');
+  var cnv = document.getElementById('sum');
+  var ctx = cnv.getContext('2d');
   ctx.clearRect(0,0,cnv.width,cnv.height);
   drawaxes3();
   ctx.beginPath();
   
-	var dx = 0.01;
+  var dx = 0.01;
   var len = Math.round((cnv.width/2)/dx);
   ctx.strokeStyle = 'black';
   ctx.lineWidth = 3;
   for(var i = -len+1; i <= len-1; i++){
-  	var x = dx*i;
-    var y1 = scale*(amplitude1*Math.sin(omega1*time-k1*(x/scale)));
-    var y2 = scale*(amplitude2*Math.sin(omega2*time-k2*(x/scale)));
+    var x = dx*i;
+    var y1 = scale*(amplitude1*Math.sin(phase1+omega1*time-k1*(x/scale)));
+    var y2 = scale*(amplitude2*Math.sin(phase2+omega2*time-k2*(x/scale)));
     var y = y1+y2;
     if(i == -len+1) ctx.moveTo(cnv.width/2+x,cnv.height/2-y);
     else ctx.lineTo(cnv.width/2+x,cnv.height/2-y);
@@ -246,8 +254,8 @@ function drawsum(){
   ctx.fillStyle = 'red';
   ctx.beginPath();
   ctx.moveTo(cnv.width/2,cnv.height/2);
-  var where1 = scale*(amplitude1*Math.sin(omega1*time));
-  var where2 = scale*(amplitude2*Math.sin(omega2*time));
+  var where1 = scale*(amplitude1*Math.sin(phase1+omega1*time));
+  var where2 = scale*(amplitude2*Math.sin(phase2+omega2*time));
   var where = where1+where2;
   ctx.lineTo(cnv.width/2,cnv.height/2-where);
   ctx.fillRect(cnv.width/2-3,cnv.height/2-where,6,6);
