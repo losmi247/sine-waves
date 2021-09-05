@@ -6,7 +6,7 @@ var omega,k;
 var scale;
 
 function init(){
-	stopped = 0;
+  stopped = 0;
   
   amplitude = 8;
   frequency = 0.5;
@@ -31,7 +31,7 @@ function init(){
 }
 
 function update(){
-	var a1 = document.getElementById("amplitude").value;
+  var a1 = document.getElementById("amplitude").value;
   var f1 = document.getElementById("frequency").value;
   var u1 = document.getElementById("speed").value;
   amplitude = a1;
@@ -46,8 +46,8 @@ function update(){
 }
 
 function drawaxes(){
-	var cnv = document.getElementById('animation');
-	var ctx = cnv.getContext('2d');
+  var cnv = document.getElementById('animation');
+  var ctx = cnv.getContext('2d');
   
   var w = cnv.width,h = cnv.height;
   
@@ -67,16 +67,16 @@ let id = null;
 var stopped = 0;
 
 function stop(){
-	stopped = 1;
-	window.clearInterval(id);
+  stopped = 1;
+  window.clearInterval(id);
 }
 
 function play(){
-	if(stopped == 0) time = 0;
+  if(stopped == 0) time = 0;
   stopped = 0;
 
-	/* var cnv = document.getElementById('animation'); 
-	var ctx = cnv.getContext('2d');
+  /* var cnv = document.getElementById('animation'); 
+  var ctx = cnv.getContext('2d');
   ctx.clearRect(0,0,cnv.width,cnv.height);
   drawaxes(); */
  
@@ -85,25 +85,25 @@ function play(){
 }
 
 function draw(){
-	time += dt*1e-3;
-	document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
+  time += dt*1e-3;
+  document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
   if(time > 10){
-  	window.clearInterval(id);
+    window.clearInterval(id);
     return;
   }
 
-	var cnv = document.getElementById('animation');
-	var ctx = cnv.getContext('2d');
+  var cnv = document.getElementById('animation');
+  var ctx = cnv.getContext('2d');
   ctx.clearRect(0,0,cnv.width,cnv.height);
   drawaxes();
   ctx.beginPath();
   
-	var dx = 0.01;
+  var dx = 0.01;
   var len = Math.round((cnv.width/2)/dx);
   ctx.strokeStyle = 'blue';
   ctx.lineWidth = 3;
   for(var i = -len+1; i <= len-1; i++){
-  	var x = dx*i;
+    var x = dx*i;
     var y = scale*(amplitude*Math.sin(omega*time-k*(x/scale)));
     if(i == -len+1) ctx.moveTo(cnv.width/2+x,cnv.height/2-y);
     else ctx.lineTo(cnv.width/2+x,cnv.height/2-y);
