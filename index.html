@@ -6,7 +6,7 @@
 
 
 <head>
-<title>Sine Wave Animation</title>
+<title>Sine Wave Animation </title>
 <script src="jscode.js"></script>
 <link rel="stylesheet" href="csscode.css">
 </head>  
@@ -16,53 +16,106 @@
 <h1>Sine Wave Animation</h1>
   
 <p>
-The following animation simulates a rightwards propagating sine wave whose equation is: $$y=A\sin(wt-kx)$$ Here \(A\) denotes the wave's amplitude, \(w\) its angular frequency (\(w=2 \pi f \), \(f\) being the ordinary frequency) and \(k\) its wavenumber (\(k=\frac{w}{u}\), \(u\) being the speed of the wave).
-</p>  
+The first two animations simulate rightwards or leftwards propagating sine waves whose equations are: $$y=A\sin(wt-kx)$$ Here \(A\) denotes the wave's amplitude, \(w\) its angular frequency (\(w=2 \pi f \), \(f\) being the ordinary frequency) and \(k\) its wavenumber (\(k=\frac{w}{u}\), \(u\) being the speed of the wave). </p> 
+
+<p>
+The third animation displays the wave resulting from the superposition, that is, the sum, of the first two waves. Using the trigonometric identity ,The equation of the resulting wave can be derived in the following way:
+
+</p>
+<p>
+Use the following tables to modify the parameters of the waves. You can simulate a leftwards propagating sine wave by setting the wave's speed \(u\) to a negative value.
+</p>
+
+ 
   
 
 <table style="display: inline-block;">
-<caption>Main wave quantities</caption>
+<caption>Main wave quantities of wave \(1\)</caption>
 <tr>
   <th>Amplitude [px]</th>
-    <td>\(A = \) <input type="number" id = "amplitude"  name = "amp" step = "any" onchange = "update()" style="width: 60px;" > </td>
+    <td>\(A_1 = \) <input type="number" id = "amplitude1"  name = "amp1" step = "any" onchange = "update()" style="width: 60px;" > </td>
 </tr>
 <tr> 
   <th>Frequency [Hz]</th>
-    <td>\(f = \) <input type="number" min = "0.05" max = "10" id = "frequency" name = "f" step = "any" onchange = "update()" style="width: 60px;"> </td>
+    <td>\(f_1 = \) <input type="number" min = "0.05" id = "frequency1" name = "f1" step = "any" onchange = "update()" style="width: 60px;"> </td>
 </tr>
 <tr>
   <th>Wave speed [px/s]</th>
-    <td>\(u = \) <input type="number" id="speed" name="speed" step="any" onchange = "update()" style="width: 60px;"> </td>
+    <td>\(u_1 = \) <input type="number" id="speed1" name="speed1" step="any" onchange = "update()" style="width: 60px;"> </td>
       
 </tr>
 </table> 
 
 <table style="display: inline-block;">
-<caption>Auxiliary quantities</caption>
+<caption>Auxiliary quantities of wave \(1\)</caption>
 <tr>
   <th>Angular frequency [Hz]</th>
-    <td>\(w=\) <output id="angfreq"></output></td>
+    <td>\(w_1=\) <output id="angfreq1"></output></td>
 </tr>
 <tr>
   <th>Wavenumber [1/px]</th>
-    <td>\(k=\) <output id="wavenumber"></output></td>
+    <td>\(k_1=\) <output id="wavenumber1"></output></td>
 </tr>
 </table>
   
 <br/>  
 
+
+
+<table style="display: inline-block;">
+<caption>Main wave quantities of wave \(2\)</caption>
+<tr>
+  <th>Amplitude [px]</th>
+    <td>\(A_2 = \) <input type="number" id = "amplitude2"  name = "amp2" step = "any" onchange = "update()" style="width: 60px;" > </td>
+</tr>
+<tr> 
+  <th>Frequency [Hz]</th>
+    <td>\(f_2 = \) <input type="number" min = "0.05" id = "frequency2" name = "f2" step = "any" onchange = "update()" style="width: 60px;"> </td>
+</tr>
+<tr>
+  <th>Wave speed [px/s]</th>
+    <td>\(u_2 = \) <input type="number" id="speed2" name="speed2" step="any" onchange = "update()" style="width: 60px;"> </td>
+      
+</tr>
+</table> 
+
+<table style="display: inline-block;">
+<caption>Auxiliary quantities of wave \(2\)</caption>
+<tr>
+  <th>Angular frequency [Hz]</th>
+    <td>\(w_2=\) <output id="angfreq2"></output></td>
+</tr>
+<tr>
+  <th>Wavenumber [1/px]</th>
+    <td>\(k_2=\) <output id="wavenumber2"></output></td>
+</tr>
+</table>
+  
+<br/>  
+
+
+
 <div class="center">
 <p id="timer" style="color:black;"></p>
-</div>
+</div>  
   
-<canvas id="animation" width="500" height="500" style="border: 1px solid black;">
-  CANVAS NOT SUPPORTED IN THIS BROWSER!
-</canvas>
-  
+ <p>
+ The following animation shows the first wave whose equation is \(y_1=A_1 \sin(w_1t-k_1x)\).
+ </p>
+<canvas id="wave1" width="500" height="270" style="border: 1px solid black;"></canvas>
+<p>
+The following animation shows the second wave whose equation is \(y_2=A_2 \sin(w_2t-k_2x)\).
+</p>
+<canvas id="wave2" width="500" height="270" style="border: 1px solid black;"></canvas>
+<p>
+The following animation shows the wave resulting from the superposition of the previous two waves whose equations are \(y_1=A_1 \sin(w_1t-k_1x)\) and \(y_2=A_2 \sin(w_2t-k_2x)\).
+</p>
+<canvas id="sum" width="500" height="270" style="border: 1px solid black;"></canvas>
+
   
   
 <div class="center">
-<p id="BoxSize">Size of the box = 500px</p>
+<p id="BoxSize">The dimensions of the boxes are \(500px\times 270 px\) </p>
 <p id="buttons"><input type="button" class="button" name="play" value="Play" onclick="play()">
 <input type = "button" class = "button" name = "stop" value = "Stop" onclick = "stop()">
 </p> 
