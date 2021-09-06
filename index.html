@@ -19,11 +19,13 @@
 The first two animations simulate rightwards or leftwards propagating sine waves whose equations are: $$y=A\sin(wt-kx+\varphi)$$ Here \(A\) denotes the wave's amplitude, \(w\) its angular frequency (\(w=2 \pi f \), \(f\) being the ordinary frequency), \(k\) its wavenumber (\(k=\frac{w}{u}\), \(u\) being the speed of the wave), and \(\varphi\) its phase shift. </p> 
 
 <p>
-The third animation displays the wave resulting from the superposition, that is, the sum, of the first two waves.
+The third animation displays the wave resulting from the superposition, that is, the sum, of the first two waves:
+
+$$y=y_1+y_2=A_1\sin(w_1t-k_1x+\varphi_1)+A_2\sin(w_2t-k_2x+\varphi_2)$$
 
 </p>
 <p>
-Use the following tables to modify the parameters of the waves. You can simulate a leftwards propagating sine wave by setting the wave's speed \(u\) to a negative value.
+Use the following tables to modify the parameters of the waves. The approximate current elongation of the point at \(x=0\) in pixels (px) is displayed in the lower right corner of each box. You can simulate a leftwards propagating sine wave by setting the wave's speed \(u\) to a negative value.
 </p>
 
  
@@ -41,8 +43,7 @@ Use the following tables to modify the parameters of the waves. You can simulate
 </tr>
 <tr>
   <th>Wave speed [px/s]</th>
-    <td>\(u_1 = \) <input type="number" id="speed1" name="speed1" step="any" onchange = "update()" style="width: 60px;"> </td>
-      
+    <td>\(u_1 = \) <input type="number" id="speed1" name="speed1" step="any" onchange = "update()" style="width: 60px;"> </td>  
 </tr>
 <tr>
   <th>Phase shift [rad]</th>
@@ -107,10 +108,12 @@ Use the following tables to modify the parameters of the waves. You can simulate
 <div class="center">
 <p id="timer" style="color:black;"></p>
 </div>  
-  
- <p>
- The following animation shows the first wave whose equation is \(y_1=A_1 \sin(w_1t-k_1x)\).
- </p>
+
+
+
+<p>
+The following animation shows the first wave whose equation is \(y_1=A_1 \sin(w_1t-k_1x)\).
+</p>
 <canvas id="wave1" width="500" height="270" style="border: 1px solid black;"></canvas>
 <p>
 The following animation shows the second wave whose equation is \(y_2=A_2 \sin(w_2t-k_2x)\).
