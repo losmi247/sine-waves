@@ -8,7 +8,7 @@ var omega2,k2;
 var scale;
 
 function init(){
-  stopped = 0;
+	stopped = 0;
   
   amplitude1 = 8;
   frequency1 = 0.5;
@@ -37,7 +37,7 @@ function init(){
   document.getElementById("wavenumber2").innerHTML = k2.toPrecision(3);
   
   time = 0;
-  dt = 20;
+  dt = 30;
   scale = 5;
   draw1();
   time = 0;
@@ -77,8 +77,8 @@ function update(){
 }
 
 function drawaxes1(){
-  var cnv = document.getElementById('wave1');
-  var ctx = cnv.getContext('2d');
+	var cnv = document.getElementById('wave1');
+	var ctx = cnv.getContext('2d');
   
   var w = cnv.width,h = cnv.height;
   
@@ -95,8 +95,8 @@ function drawaxes1(){
 }
 
 function drawaxes2(){
-  var cnv = document.getElementById('wave2');
-  var ctx = cnv.getContext('2d');
+	var cnv = document.getElementById('wave2');
+	var ctx = cnv.getContext('2d');
   
   var w = cnv.width,h = cnv.height;
   
@@ -113,8 +113,8 @@ function drawaxes2(){
 }
 
 function drawaxes3(){
-  var cnv = document.getElementById('sum');
-  var ctx = cnv.getContext('2d');
+	var cnv = document.getElementById('sum');
+	var ctx = cnv.getContext('2d');
   
   var w = cnv.width,h = cnv.height;
   
@@ -134,16 +134,16 @@ let id = null;
 var stopped = 0;
 
 function stop(){
-  stopped = 1;
-  window.clearInterval(id);
+	stopped = 1;
+	window.clearInterval(id);
 }
 
 function play(){
-  if(stopped == 0 || (stopped == 1 && time > 10)) time = 0;
+	if(stopped == 0 || (stopped == 1 && time > 10)) time = 0;
   stopped = 0;
 
-  /* var cnv = document.getElementById('animation'); 
-  var ctx = cnv.getContext('2d');
+	/* var cnv = document.getElementById('animation'); 
+	var ctx = cnv.getContext('2d');
   ctx.clearRect(0,0,cnv.width,cnv.height);
   drawaxes(); */
  
@@ -152,22 +152,22 @@ function play(){
 }
 
 function draw1(){
-  time += dt*1e-3;
-  //document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
+	time += dt*1e-3;
+	//document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
 
-  var cnv = document.getElementById('wave1');
-  var ctx = cnv.getContext('2d');
+	var cnv = document.getElementById('wave1');
+	var ctx = cnv.getContext('2d');
   ctx.clearRect(0,0,cnv.width,cnv.height);
   drawaxes1();
   ctx.beginPath();
   
-  var dx = 0.01;
+	var dx = 0.01;
   var len = Math.round((cnv.width/2)/dx);
   ctx.strokeStyle = 'blue';
   ctx.lineWidth = 3;
   for(var i = -len+1; i <= len-1; i++){
-    var x = dx*i;
-    var y = scale*(amplitude1*Math.sin(phase1+omega1*time-k1*(x/scale)));
+  	var x = dx*i;
+    var y = scale*(amplitude1*Math.sin(Math.sign(phase1)*Math.abs(phase1)+(omega1*time)-(k1*(x/scale))));
     if(i == -len+1) ctx.moveTo(cnv.width/2+x,cnv.height/2-y);
     else ctx.lineTo(cnv.width/2+x,cnv.height/2-y);
   }
@@ -177,37 +177,42 @@ function draw1(){
   ctx.fillStyle = 'red';
   ctx.beginPath();
   ctx.moveTo(cnv.width/2,cnv.height/2);
-  var where = scale*(amplitude1*Math.sin(phase1+omega1*time));
+  var where = scale*(amplitude1*Math.sin(Math.sign(phase1)*Math.abs(phase1)+(omega1*time)));
   ctx.lineTo(cnv.width/2,cnv.height/2-where);
   ctx.fillRect(cnv.width/2-3,cnv.height/2-where,6,6);
   ctx.stroke();
+  
+  ctx.strokeStyle = 'black';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.strokeText("y="+where.toPrecision(2)+"px",450,260);
   
   time -= dt*1e-3;
   draw2();
   
   if(time > 10){
-    window.clearInterval(id);
+  	window.clearInterval(id);
     return;
   }
 }
 
 function draw2(){
-  time += dt*1e-3;
-  //document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
+	time += dt*1e-3;
+	//document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
 
-  var cnv = document.getElementById('wave2');
-  var ctx = cnv.getContext('2d');
+	var cnv = document.getElementById('wave2');
+	var ctx = cnv.getContext('2d');
   ctx.clearRect(0,0,cnv.width,cnv.height);
   drawaxes2();
   ctx.beginPath();
   
-  var dx = 0.01;
+	var dx = 0.01;
   var len = Math.round((cnv.width/2)/dx);
   ctx.strokeStyle = 'green';
   ctx.lineWidth = 3;
   for(var i = -len+1; i <= len-1; i++){
-    var x = dx*i;
-    var y = scale*(amplitude2*Math.sin(phase2+omega2*time-k2*(x/scale)));
+  	var x = dx*i;
+    var y = scale*(amplitude2*Math.sin(Math.sign(phase2)*Math.abs(phase2)+omega2*time-k2*(x/scale)));
     if(i == -len+1) ctx.moveTo(cnv.width/2+x,cnv.height/2-y);
     else ctx.lineTo(cnv.width/2+x,cnv.height/2-y);
   }
@@ -217,33 +222,38 @@ function draw2(){
   ctx.fillStyle = 'red';
   ctx.beginPath();
   ctx.moveTo(cnv.width/2,cnv.height/2);
-  var where = scale*(amplitude2*Math.sin(phase2+omega2*time));
+  var where = scale*(amplitude2*Math.sin(Math.sign(phase2)*Math.abs(phase2)+omega2*time));
   ctx.lineTo(cnv.width/2,cnv.height/2-where);
   ctx.fillRect(cnv.width/2-3,cnv.height/2-where,6,6);
   ctx.stroke();
+  
+  ctx.strokeStyle = 'black';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.strokeText("y="+where.toPrecision(2)+"px",450,260);
   
   time -= dt*1e-3;
   drawsum();
 }
 
 function drawsum(){
-  time += dt*1e-3;
-  document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
+	time += dt*1e-3;
+	document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
 
-  var cnv = document.getElementById('sum');
-  var ctx = cnv.getContext('2d');
+	var cnv = document.getElementById('sum');
+	var ctx = cnv.getContext('2d');
   ctx.clearRect(0,0,cnv.width,cnv.height);
   drawaxes3();
   ctx.beginPath();
   
-  var dx = 0.01;
+	var dx = 0.01;
   var len = Math.round((cnv.width/2)/dx);
   ctx.strokeStyle = 'black';
   ctx.lineWidth = 3;
   for(var i = -len+1; i <= len-1; i++){
-    var x = dx*i;
-    var y1 = scale*(amplitude1*Math.sin(phase1+omega1*time-k1*(x/scale)));
-    var y2 = scale*(amplitude2*Math.sin(phase2+omega2*time-k2*(x/scale)));
+  	var x = dx*i;
+    var y1 = scale*(amplitude1*Math.sin(Math.sign(phase1)*Math.abs(phase1)+omega1*time-k1*(x/scale)));
+    var y2 = scale*(amplitude2*Math.sin(Math.sign(phase2)*Math.abs(phase2)+omega2*time-k2*(x/scale)));
     var y = y1+y2;
     if(i == -len+1) ctx.moveTo(cnv.width/2+x,cnv.height/2-y);
     else ctx.lineTo(cnv.width/2+x,cnv.height/2-y);
@@ -254,10 +264,15 @@ function drawsum(){
   ctx.fillStyle = 'red';
   ctx.beginPath();
   ctx.moveTo(cnv.width/2,cnv.height/2);
-  var where1 = scale*(amplitude1*Math.sin(phase1+omega1*time));
-  var where2 = scale*(amplitude2*Math.sin(phase2+omega2*time));
+  var where1 = scale*(amplitude1*Math.sin(Math.sign(phase1)*Math.abs(phase1)+omega1*time));
+  var where2 = scale*(amplitude2*Math.sin(Math.sign(phase2)*Math.abs(phase2)+omega2*time));
   var where = where1+where2;
   ctx.lineTo(cnv.width/2,cnv.height/2-where);
   ctx.fillRect(cnv.width/2-3,cnv.height/2-where,6,6);
   ctx.stroke();
+  
+  ctx.strokeStyle = 'black';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.strokeText("y="+where.toPrecision(2)+"px",450,260);
 }
