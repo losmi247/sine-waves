@@ -10,7 +10,7 @@ var scale;
 var fr1,fr2;
 
 function init(){
-	stopped = 0;
+  stopped = 0;
   
   amplitude1 = 8;
   frequency1 = 0.5;
@@ -87,8 +87,8 @@ function update(){
 }
 
 function drawaxes1(){
-	var cnv = document.getElementById('wave1');
-	var ctx = cnv.getContext('2d');
+  var cnv = document.getElementById('wave1');
+  var ctx = cnv.getContext('2d');
   
   var w = cnv.width,h = cnv.height;
   
@@ -105,8 +105,8 @@ function drawaxes1(){
 }
 
 function drawaxes2(){
-	var cnv = document.getElementById('wave2');
-	var ctx = cnv.getContext('2d');
+  var cnv = document.getElementById('wave2');
+  var ctx = cnv.getContext('2d');
   
   var w = cnv.width,h = cnv.height;
   
@@ -123,8 +123,8 @@ function drawaxes2(){
 }
 
 function drawaxes3(){
-	var cnv = document.getElementById('sum');
-	var ctx = cnv.getContext('2d');
+  var cnv = document.getElementById('sum');
+  var ctx = cnv.getContext('2d');
   
   var w = cnv.width,h = cnv.height;
   
@@ -144,16 +144,16 @@ let id = null;
 var stopped = 0;
 
 function stop(){
-	stopped = 1;
-	window.clearInterval(id);
+  stopped = 1;
+  window.clearInterval(id);
 }
 
 function play(){
-	if(stopped == 0 || (stopped == 1 && time > 10)) time = 0;
+  if(stopped == 0 || (stopped == 1 && time > 10)) time = 0;
   stopped = 0;
 
-	/* var cnv = document.getElementById('animation'); 
-	var ctx = cnv.getContext('2d');
+  /* var cnv = document.getElementById('animation'); 
+  var ctx = cnv.getContext('2d');
   ctx.clearRect(0,0,cnv.width,cnv.height);
   drawaxes(); */
  
@@ -162,21 +162,21 @@ function play(){
 }
 
 function draw1(){
-	time += dt*1e-3;
-	//document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
+  time += dt*1e-3;
+  //document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
 
-	var cnv = document.getElementById('wave1');
-	var ctx = cnv.getContext('2d');
+  var cnv = document.getElementById('wave1');
+  var ctx = cnv.getContext('2d');
   ctx.clearRect(0,0,cnv.width,cnv.height);
   drawaxes1();
   ctx.beginPath();
   
-	var dx = 0.01;
+  var dx = 0.01;
   var len = Math.round((cnv.width/2)/dx);
   ctx.strokeStyle = 'blue';
   ctx.lineWidth = 3;
   for(var i = -len+1; i <= len-1; i++){
-  	var x = dx*i;
+    var x = dx*i;
     var y = scale*(amplitude1*Math.sin(Math.sign(phase1)*Math.abs(phase1)+(omega1*time)-(k1*(x/scale))));
     if(i == -len+1) ctx.moveTo(cnv.width/2+x,cnv.height/2-y);
     else ctx.lineTo(cnv.width/2+x,cnv.height/2-y);
@@ -201,27 +201,27 @@ function draw1(){
   draw2();
   
   if(time > 10){
-  	window.clearInterval(id);
+    window.clearInterval(id);
     return;
   }
 }
 
 function draw2(){
-	time += dt*1e-3;
-	//document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
+  time += dt*1e-3;
+  //document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
 
-	var cnv = document.getElementById('wave2');
-	var ctx = cnv.getContext('2d');
+  var cnv = document.getElementById('wave2');
+  var ctx = cnv.getContext('2d');
   ctx.clearRect(0,0,cnv.width,cnv.height);
   drawaxes2();
   ctx.beginPath();
   
-	var dx = 0.01;
+  var dx = 0.01;
   var len = Math.round((cnv.width/2)/dx);
   ctx.strokeStyle = 'green';
   ctx.lineWidth = 3;
   for(var i = -len+1; i <= len-1; i++){
-  	var x = dx*i;
+    var x = dx*i;
     var y = scale*(amplitude2*Math.sin(Math.sign(phase2)*Math.abs(phase2)+omega2*time-k2*(x/scale)));
     if(i == -len+1) ctx.moveTo(cnv.width/2+x,cnv.height/2-y);
     else ctx.lineTo(cnv.width/2+x,cnv.height/2-y);
@@ -247,21 +247,21 @@ function draw2(){
 }
 
 function drawsum(){
-	time += dt*1e-3;
-	document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
+  time += dt*1e-3;
+  document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
 
-	var cnv = document.getElementById('sum');
-	var ctx = cnv.getContext('2d');
+  var cnv = document.getElementById('sum');
+  var ctx = cnv.getContext('2d');
   ctx.clearRect(0,0,cnv.width,cnv.height);
   drawaxes3();
   ctx.beginPath();
   
-	var dx = 0.01;
+  var dx = 0.01;
   var len = Math.round((cnv.width/2)/dx);
   ctx.strokeStyle = 'black';
   ctx.lineWidth = 3;
   for(var i = -len+1; i <= len-1; i++){
-  	var x = dx*i;
+    var x = dx*i;
     var y1 = scale*(amplitude1*Math.sin(Math.sign(phase1)*Math.abs(phase1)+omega1*time-k1*(x/scale)));
     var y2 = scale*(amplitude2*Math.sin(Math.sign(phase2)*Math.abs(phase2)+omega2*time-k2*(x/scale)));
     var y = y1+y2;
@@ -292,39 +292,39 @@ var osc1,osc2;
 var on1 = 0,on2 = 0;
 
 function playfr1(){
-	if(on1 == 1) stopfr1();
+  if(on1 == 1) stopfr1();
   on1 = 1;
-	actx1 = new (window.AudioContext || window.webkitAudioContext)();
-	osc1 = actx1.createOscillator();
-	osc1.type = 'sine';
-	osc1.frequency.setValueAtTime(fr1, actx1.currentTime);
-	osc1.connect(actx1.destination);
-	osc1.start();
+  actx1 = new (window.AudioContext || window.webkitAudioContext)();
+  osc1 = actx1.createOscillator();
+  osc1.type = 'sine';
+  osc1.frequency.setValueAtTime(fr1, actx1.currentTime);
+  osc1.connect(actx1.destination);
+  osc1.start();
 }
 
 function stopfr1(){
-	on1 = 0;
-	osc1.stop();
+  on1 = 0;
+  osc1.stop();
 }
 
 function playfr2(){
-	if(on2 == 1) stopfr2();
+  if(on2 == 1) stopfr2();
   on2 = 1;
-	actx2 = new (window.AudioContext || window.webkitAudioContext)();
-	osc2 = actx2.createOscillator();
-	osc2.type = 'sine';
-	osc2.frequency.setValueAtTime(fr2, actx2.currentTime);
-	osc2.connect(actx2.destination);
-	osc2.start();
+  actx2 = new (window.AudioContext || window.webkitAudioContext)();
+  osc2 = actx2.createOscillator();
+  osc2.type = 'sine';
+  osc2.frequency.setValueAtTime(fr2, actx2.currentTime);
+  osc2.connect(actx2.destination);
+  osc2.start();
 }
 
 function stopfr2(){
-	on2 = 0;
-	osc2.stop();
+  on2 = 0;
+  osc2.stop();
 }
 
 function updatefr(){
-	var f1 = document.getElementById("fr1").value;
+  var f1 = document.getElementById("fr1").value;
   var f2 = document.getElementById("fr2").value;
   if(f1 < 10 || f1 > 1000){
   	document.getElementById("fr1").value = 440;
@@ -335,11 +335,11 @@ function updatefr(){
   fr1 = f1;
   fr2 = f2;
   if(on1 == 1){
-  	stopfr1();
+    stopfr1();
     playfr1();
   }
   if(on2 == 1){
-  	stopfr2();
+    stopfr2();
     playfr2();
   }
 }
