@@ -14,6 +14,9 @@
 <body onload=init()>  
 <div id="wrapper">
 <h1>Sine Wave Animation</h1>
+<h2>
+General Information
+</h2>
   
 <p>
 The first two animations simulate rightwards or leftwards propagating sine waves whose equations are: $$y=A\sin(wt-kx+\varphi)$$ Here \(A\) denotes the wave's amplitude, \(w\) its angular frequency (\(w=2 \pi f \), \(f\) being the ordinary frequency), \(k\) its wavenumber (\(k=\frac{w}{u}\), \(u\) being the speed of the wave), and \(\varphi\) its phase shift. </p> 
@@ -105,36 +108,69 @@ Use the following tables to modify the parameters of the waves. The approximate 
 
 
 
-<div class="center">
-<p id="timer" style="color:black;"></p>
-</div>  
+<p align="center" id="timer" style="color:black;"></p>
 
 
 
 <p>
-The following animation shows the first wave whose equation is \(y_1=A_1 \sin(w_1t-k_1x+\varphi_1)\).
+The following animation shows the first wave whose equation is \(y_1=A_1 \sin(w_1t-k_1x)\).
 </p>
+<p align="center">
 <canvas id="wave1" width="500" height="270" style="border: 1px solid black;"></canvas>
-<p>
-The following animation shows the second wave whose equation is \(y_2=A_2 \sin(w_2t-k_2x+\varphi_2)\).
 </p>
+<p>
+The following animation shows the second wave whose equation is \(y_2=A_2 \sin(w_2t-k_2x)\).
+</p>
+<p align="center">
 <canvas id="wave2" width="500" height="270" style="border: 1px solid black;"></canvas>
-<p>
-The following animation shows the wave resulting from the superposition of the previous two waves whose equations are \(y_1=A_1 \sin(w_1t-k_1x+\varphi_1)\) and \(y_2=A_2 \sin(w_2t-k_2x+\varphi_2)\).
 </p>
+<p>
+The following animation shows the wave resulting from the superposition of the previous two waves whose equations are \(y_1=A_1 \sin(w_1t-k_1x)\) and \(y_2=A_2 \sin(w_2t-k_2x)\).
+</p>
+<p align="center">
 <canvas id="sum" width="500" height="270" style="border: 1px solid black;"></canvas>
+</p>
 
   
   
-<div class="center">
-<p id="BoxSize">The dimensions of the boxes are \(500px\times 270 px\) </p>
-<p id="buttons"><input type="button" class="button" name="play" value="Play" onclick="play()">
+<p align="center" id="BoxSize">The dimensions of the boxes are \(500px\times 270 px\) </p>
+<p align="center" id="buttons"><input type="button" class="button" name="play" value="Play" onclick="play()">
 <input type = "button" class = "button" name = "stop" value = "Stop" onclick = "stop()">
 </p> 
-</div>  
+  
+
+<h2>
+Different Achievable Waveforms
+</h2>
   
   
-  
+ <p>
+The sum wave can take a number of different shapes depending on the parameters of the two waves that constitute it. For instance, <i>standing waves</i> and <i>beats</i> are examples of such wave patterns.
+</p>
+
+<h3>
+Standing Waves
+</h3>
+
+<p>
+When the two waves have different directions of propagation, it is possible to spot a pattern (in the sum box) constisting of <i>nodes</i> (points on the \(x\)-axis whose elongation is always \(y=0\)) and <i>antinodes</i> (points on the \(x\)-axis whose amplitude of oscillation is maximal).
+</p>
+
+<p>
+This behaviour of the sum wave can be mathematically justified in the following way:
+
+$$y=y_1+y_2=A\sin(wt+kx)+A\sin(wt-kx)=2A\sin(wt)\cos(kx)$$
+
+Here we assumed that the amplitudes, angular frequencies and wavenumber of the two waves are the same, their directions of propagation over time different (note the change in the sign before \(kx\)), and used the trigonometric identity \(\sin a + \sin b = 2\sin(\frac{a+b}{2})\cos(\frac{a-b}{2})\) for real numbers \(a\) and \(b\).
+</p>
+<p>
+Analyzing the obtained formula, we can argue that the term \(2\cos(kx)\) is constant for a single point \(x\) on the \(x\)-axis. Therefore, due to the other term \(\sin(wt)\), every point of the wave will oscillate in place with a fixed amplitude.
+</p>
+
+
+<h3>
+Beats
+</h3>
   
 </div>  
   
