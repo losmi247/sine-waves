@@ -7,6 +7,8 @@ var amplitude2,frequency2,speed2,phase2;
 var omega2,k2;
 var scale;
 
+var fr1,fr2;
+
 function init(){
 	stopped = 0;
   
@@ -42,6 +44,14 @@ function init(){
   draw1();
   time = 0;
   document.getElementById("timer").innerHTML = "t = 0.00s";
+  
+  
+  
+  fr1=440;
+  fr2=441;
+  document.getElementById("fr1").value = fr1;
+  document.getElementById("fr2").value = fr2;
+  on1 = on2 = 0;
 }
 
 function update(){
@@ -275,4 +285,61 @@ function drawsum(){
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.strokeText("y="+where.toPrecision(2)+"px",450,260);
+}
+
+var actx1,actx2;
+var osc1,osc2;
+var on1 = 0,on2 = 0;
+
+function playfr1(){
+	if(on1 == 1) stopfr1();
+  on1 = 1;
+	actx1 = new (window.AudioContext || window.webkitAudioContext)();
+	osc1 = actx1.createOscillator();
+	osc1.type = 'sine';
+	osc1.frequency.setValueAtTime(fr1, actx1.currentTime);
+	osc1.connect(actx1.destination);
+	osc1.start();
+}
+
+function stopfr1(){
+	on1 = 0;
+	osc1.stop();
+}
+
+function playfr2(){
+	if(on2 == 1) stopfr2();
+  on2 = 1;
+	actx2 = new (window.AudioContext || window.webkitAudioContext)();
+	osc2 = actx2.createOscillator();
+	osc2.type = 'sine';
+	osc2.frequency.setValueAtTime(fr2, actx2.currentTime);
+	osc2.connect(actx2.destination);
+	osc2.start();
+}
+
+function stopfr2(){
+	on2 = 0;
+	osc2.stop();
+}
+
+function updatefr(){
+	var f1 = document.getElementById("fr1").value;
+  var f2 = document.getElementById("fr2").value;
+  if(f1 < 10 || f1 > 1000){
+  	document.getElementById("fr1").value = 440;
+  }
+  if(f2 < 10 || f2 > 1000){
+  	document.getElementById("fr2").value = 441;
+  }
+  fr1 = f1;
+  fr2 = f2;
+  if(on1 == 1){
+  	stopfr1();
+    playfr1();
+  }
+  if(on2 == 1){
+  	stopfr2();
+    playfr2();
+  }
 }
