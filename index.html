@@ -177,8 +177,22 @@ Beats
 </h3>
   
 <p>
-Beats typically appear in cases where the frequencies of the two waves are similar.
+Beats typically appear in cases where the frequencies of the two waves are similar. Consider two waves with frequencies \(f_1\) and \(f_2\) that have the same amplitudes. Their sum is equal to the following:
+
+$$y=y_1+y_2=A\sin(2\pi f_1 t-k_1x)+A\sin(2\pi f_2 t-k_2x)$$
+$$y=2A\sin(2\pi \frac{f_1+f_2}{2} t- \frac{k_1+k_2}{2}x)\cos(2\pi \frac{f_1-f_2}{2} t- \frac{k_1-k_2}{2}x)$$
 </p>  
+<p>
+When \(f_1 \approx f_2\), that is, when \(f_1-f_2\) is small enough (suppose that \(f_1 > f_2\)), we can notice a pattern which consist of a series of identical shapes - <b>beats</b>. In other words, the amplitude of osicllations periodically increases and decreases due to the term \(\cos(2\pi \frac{f_1-f_2}{2} t- \frac{k_1-k_2}{2}x)\), which looks like this:
+</p>
+  
+<p align="center"> 
+<IMG SRC="beat.png">
+</p>
+
+<p>
+This phenomenon can also be demonstrated by playing two sound waves with similar frequencies at the same time, say \(f_1=440\)Hz and \(f_2=441\)Hz. Listeners will notice periodic appearing and disapearing of sound. The frequency with which the beats are heard is exactly the difference of the two individual frequencies: \(f_{beat}=f_1-f_2\).
+</p>
   
   
 </div>  
