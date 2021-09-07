@@ -191,7 +191,24 @@ When \(f_1 \approx f_2\), that is, when \(f_1-f_2\) is small enough (suppose tha
 </p>
 
 <p>
-This phenomenon can also be demonstrated by playing two sound waves with similar frequencies at the same time, say \(f_2=440\)Hz and \(f_1=441\)Hz. Listeners will notice periodic appearing and disapearing of sound. The frequency with which the beats are heard is exactly the difference of the two individual frequencies: \(f_{beat}=f_1-f_2\).
+This phenomenon can also be demonstrated by playing two notes with similar frequencies at the same time, say \(f_1=440\)Hz and \(f_2=441\)Hz. This is because sound is a longitudinal wave. Listeners will notice periodic appearing and disapearing of sound. The frequency with which the beats are heard is exactly the difference of the two individual frequencies: \(f_{beat}=f_1-f_2\).
+</p>
+<p>
+You can use the following inputs to pick the frequencies of the sinusoidal sine waves you want to play. Be careful with the volume of your speakers.
+</p>
+  
+  
+
+<p align="center" id="melodybuttons">
+
+<input type="number" id="fr1" name="fr1" step="any" onchange = "updatefr()" style="width: 60px; height: 40px">
+<input type="button" class="button" name="play1" value="Play frequency 1" onclick="playfr1()">
+<input type="button" class="button" name="stop1" value="Stop frequency 1" onclick="stopfr1()">
+</p>
+<p align="center" id="melodybutton1">
+<input type="number" id="fr2" name="fr2" step="any" onchange = "updatefr()" style="width: 60px; height: 40px">
+<input type="button" class="button" name="play2" value="Play frequency 2" onclick="playfr2()">
+<input type="button" class="button" name="stop2" value="Stop frequency 2" onclick="stopfr2()">
 </p>
   
   
