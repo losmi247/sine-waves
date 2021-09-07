@@ -1,178 +1,278 @@
-<!DOCTYPE html>
-<html lang="en-US">
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
+"use strict";
 
+var time,dt;
+var amplitude1,frequency1,speed1,phase1;
+var omega1,k1;
+var amplitude2,frequency2,speed2,phase2;
+var omega2,k2;
+var scale;
 
-<head>
-<title>Sine Wave Animation </title>
-<script src="jscode.js"></script>
-<link rel="stylesheet" href="csscode.css">
-</head>  
+function init(){
+	stopped = 0;
   
-<body onload=init()>  
-<div id="wrapper">
-<h1>Sine Wave Animation</h1>
-<h2>
-General Information
-</h2>
+  amplitude1 = 8;
+  frequency1 = 0.5;
+  speed1 = 10;
+  phase1 = 0;
+  document.getElementById("amplitude1").value = amplitude1;
+  document.getElementById("frequency1").value = frequency1;
+  document.getElementById("speed1").value = speed1;
+  document.getElementById("phase1").value = phase1;
+  omega1 = frequency1*2*Math.PI;
+  k1 = omega1/speed1;
+  document.getElementById("angfreq1").innerHTML = omega1.toPrecision(3);
+  document.getElementById("wavenumber1").innerHTML = k1.toPrecision(3);
   
-<p>
-The first two animations simulate rightwards or leftwards propagating sine waves whose equations are: $$y=A\sin(wt-kx+\varphi)$$ Here \(A\) denotes the wave's amplitude, \(w\) its angular frequency (\(w=2 \pi f \), \(f\) being the ordinary frequency), \(k\) its wavenumber (\(k=\frac{w}{u}\), \(u\) being the speed of the wave), and \(\varphi\) its phase shift. </p> 
+  amplitude2 = 8;
+  frequency2 = 0.5;
+  speed2 = 10;
+  phase2 = 0;
+  document.getElementById("amplitude2").value = amplitude2;
+  document.getElementById("frequency2").value = frequency2;
+  document.getElementById("speed2").value = speed2;
+  document.getElementById("phase2").value = phase2;
+  omega2 = frequency2*2*Math.PI;
+  k2 = omega2/speed2;
+  document.getElementById("angfreq2").innerHTML = omega2.toPrecision(3);
+  document.getElementById("wavenumber2").innerHTML = k2.toPrecision(3);
+  
+  time = 0;
+  dt = 30;
+  scale = 5;
+  draw1();
+  time = 0;
+  document.getElementById("timer").innerHTML = "t = 0.00s";
+}
 
-<p>
-The third animation displays the wave resulting from the superposition, that is, the sum, of the first two waves:
+function update(){
+  var a2 = document.getElementById("amplitude2").value;
+  var f2 = document.getElementById("frequency2").value;
+  var u2 = document.getElementById("speed2").value;
+  var p2 = document.getElementById("phase2").value;
+  amplitude2 = a2;
+  frequency2 = f2;
+  speed2 = u2;
+  phase2 = p2;
+  omega2 = frequency2*2*Math.PI;
+  k2 = omega2/speed2;
+  document.getElementById("angfreq2").innerHTML = omega2.toPrecision(3);
+  document.getElementById("wavenumber2").innerHTML = k2.toPrecision(3);
+  /*time -= dt*1e-3;
+  draw2();*/
+  
+  var a1 = document.getElementById("amplitude1").value;
+  var f1 = document.getElementById("frequency1").value;
+  var u1 = document.getElementById("speed1").value;
+  var p1 = document.getElementById("phase1").value;
+  amplitude1 = a1;
+  frequency1 = f1;
+  speed1 = u1;
+  phase1 = p1;
+  omega1 = frequency1*2*Math.PI;
+  k1 = omega1/speed1;
+  document.getElementById("angfreq1").innerHTML = omega1.toPrecision(3);
+  document.getElementById("wavenumber1").innerHTML = k1.toPrecision(3);
+  time -= dt*1e-3;
+  draw1();
+}
 
-$$y=y_1+y_2=A_1\sin(w_1t-k_1x+\varphi_1)+A_2\sin(w_2t-k_2x+\varphi_2)$$
+function drawaxes1(){
+	var cnv = document.getElementById('wave1');
+	var ctx = cnv.getContext('2d');
+  
+  var w = cnv.width,h = cnv.height;
+  
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = 'black';
+  ctx.beginPath();
+  ctx.moveTo(0, h/2);
+  ctx.lineTo(w, h/2);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(w/2,0);
+  ctx.lineTo(w/2,h);
+  ctx.stroke();
+}
 
-</p>
-<p>
-Use the following tables to modify the parameters of the waves. The approximate current elongation of the point at \(x=0\) in pixels (px) is displayed in the lower right corner of each box. You can simulate a leftwards propagating sine wave by setting the wave's speed \(u\) to a negative value.
-</p>
+function drawaxes2(){
+	var cnv = document.getElementById('wave2');
+	var ctx = cnv.getContext('2d');
+  
+  var w = cnv.width,h = cnv.height;
+  
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = 'black';
+  ctx.beginPath();
+  ctx.moveTo(0, h/2);
+  ctx.lineTo(w, h/2);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(w/2,0);
+  ctx.lineTo(w/2,h);
+  ctx.stroke();
+}
 
+function drawaxes3(){
+	var cnv = document.getElementById('sum');
+	var ctx = cnv.getContext('2d');
+  
+  var w = cnv.width,h = cnv.height;
+  
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = 'black';
+  ctx.beginPath();
+  ctx.moveTo(0, h/2);
+  ctx.lineTo(w, h/2);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(w/2,0);
+  ctx.lineTo(w/2,h);
+  ctx.stroke();
+}
+
+let id = null;
+var stopped = 0;
+
+function stop(){
+	stopped = 1;
+	window.clearInterval(id);
+}
+
+function play(){
+	if(stopped == 0 || (stopped == 1 && time > 10)) time = 0;
+  stopped = 0;
+
+	/* var cnv = document.getElementById('animation'); 
+	var ctx = cnv.getContext('2d');
+  ctx.clearRect(0,0,cnv.width,cnv.height);
+  drawaxes(); */
  
+  window.clearInterval(id);
+  id = window.setInterval(draw1,dt);
+}
+
+function draw1(){
+	time += dt*1e-3;
+	//document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
+
+	var cnv = document.getElementById('wave1');
+	var ctx = cnv.getContext('2d');
+  ctx.clearRect(0,0,cnv.width,cnv.height);
+  drawaxes1();
+  ctx.beginPath();
   
-
-<table style="display: inline-block;">
-<caption>Main wave quantities of wave \(1\)</caption>
-<tr>
-  <th>Amplitude [px]</th>
-    <td>\(A_1 = \) <input type="number" id = "amplitude1"  name = "amp1" step = "any" onchange = "update()" style="width: 60px;" > </td>
-</tr>
-<tr> 
-  <th>Frequency [Hz]</th>
-    <td>\(f_1 = \) <input type="number" min = "0.05" id = "frequency1" name = "f1" step = "any" onchange = "update()" style="width: 60px;"> </td>
-</tr>
-<tr>
-  <th>Wave speed [px/s]</th>
-    <td>\(u_1 = \) <input type="number" id="speed1" name="speed1" step="any" onchange = "update()" style="width: 60px;"> </td>  
-</tr>
-<tr>
-  <th>Phase shift [rad]</th>
-    <td>\(\varphi_1 = \) <input type="number" id="phase1" name = "phase1" step = "any" 
-    onchange = "update()" style="width: 60px;"> </td>
-</tr>
-</table> 
-
-<table style="display: inline-block;">
-<caption>Auxiliary quantities of wave \(1\)</caption>
-<tr>
-  <th>Angular frequency [Hz]</th>
-    <td>\(w_1=\) <output id="angfreq1"></output></td>
-</tr>
-<tr>
-  <th>Wavenumber [1/px]</th>
-    <td>\(k_1=\) <output id="wavenumber1"></output></td>
-</tr>
-</table>
+	var dx = 0.01;
+  var len = Math.round((cnv.width/2)/dx);
+  ctx.strokeStyle = 'blue';
+  ctx.lineWidth = 3;
+  for(var i = -len+1; i <= len-1; i++){
+  	var x = dx*i;
+    var y = scale*(amplitude1*Math.sin(Math.sign(phase1)*Math.abs(phase1)+(omega1*time)-(k1*(x/scale))));
+    if(i == -len+1) ctx.moveTo(cnv.width/2+x,cnv.height/2-y);
+    else ctx.lineTo(cnv.width/2+x,cnv.height/2-y);
+  }
+  ctx.stroke();
   
-<br/>  
-
-
-
-<table style="display: inline-block;">
-<caption>Main wave quantities of wave \(2\)</caption>
-<tr>
-  <th>Amplitude [px]</th>
-    <td>\(A_2 = \) <input type="number" id = "amplitude2"  name = "amp2" step = "any" onchange = "update()" style="width: 60px;" > </td>
-</tr>
-<tr> 
-  <th>Frequency [Hz]</th>
-    <td>\(f_2 = \) <input type="number" min = "0.05" id = "frequency2" name = "f2" step = "any" onchange = "update()" style="width: 60px;"> </td>
-</tr>
-<tr>
-  <th>Wave speed [px/s]</th>
-    <td>\(u_2 = \) <input type="number" id="speed2" name="speed2" step="any" onchange = "update()" style="width: 60px;"> </td>
-</tr>
-<tr>
-  <th>Phase shift [rad]</th>
-    <td>\(\varphi_2 = \) <input type="number" id="phase2" name = "phase2" step = "any" 
-    onchange = "update()" style="width: 60px;"> </td>
-</tr>
-</table> 
-
-<table style="display: inline-block;">
-<caption>Auxiliary quantities of wave \(2\)</caption>
-<tr>
-  <th>Angular frequency [Hz]</th>
-    <td>\(w_2=\) <output id="angfreq2"></output></td>
-</tr>
-<tr>
-  <th>Wavenumber [1/px]</th>
-    <td>\(k_2=\) <output id="wavenumber2"></output></td>
-</tr>
-</table>
+  ctx.strokeStyle = 'red';
+  ctx.fillStyle = 'red';
+  ctx.beginPath();
+  ctx.moveTo(cnv.width/2,cnv.height/2);
+  var where = scale*(amplitude1*Math.sin(Math.sign(phase1)*Math.abs(phase1)+(omega1*time)));
+  ctx.lineTo(cnv.width/2,cnv.height/2-where);
+  ctx.fillRect(cnv.width/2-3,cnv.height/2-where,6,6);
+  ctx.stroke();
   
-<br/>  
-
-
-
-<p align="center" id="timer" style="color:black;"></p>
-
-
-
-<p>
-The following animation shows the first wave whose equation is \(y_1=A_1 \sin(w_1t-k_1x)\).
-</p>
-<p align="center">
-<canvas id="wave1" width="500" height="270" style="border: 1px solid black;"></canvas>
-</p>
-<p>
-The following animation shows the second wave whose equation is \(y_2=A_2 \sin(w_2t-k_2x)\).
-</p>
-<p align="center">
-<canvas id="wave2" width="500" height="270" style="border: 1px solid black;"></canvas>
-</p>
-<p>
-The following animation shows the wave resulting from the superposition of the previous two waves whose equations are \(y_1=A_1 \sin(w_1t-k_1x)\) and \(y_2=A_2 \sin(w_2t-k_2x)\).
-</p>
-<p align="center">
-<canvas id="sum" width="500" height="270" style="border: 1px solid black;"></canvas>
-</p>
-
+  ctx.strokeStyle = 'black';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.strokeText("y="+where.toPrecision(2)+"px",450,260);
   
+  time -= dt*1e-3;
+  draw2();
   
-<p align="center" id="BoxSize">The dimensions of the boxes are \(500px\times 270 px\) </p>
-<p align="center" id="buttons"><input type="button" class="button" name="play" value="Play" onclick="play()">
-<input type = "button" class = "button" name = "stop" value = "Stop" onclick = "stop()">
-</p> 
+  if(time > 10){
+  	window.clearInterval(id);
+    return;
+  }
+}
+
+function draw2(){
+	time += dt*1e-3;
+	//document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
+
+	var cnv = document.getElementById('wave2');
+	var ctx = cnv.getContext('2d');
+  ctx.clearRect(0,0,cnv.width,cnv.height);
+  drawaxes2();
+  ctx.beginPath();
   
-
-<h2>
-Different Achievable Waveforms
-</h2>
+	var dx = 0.01;
+  var len = Math.round((cnv.width/2)/dx);
+  ctx.strokeStyle = 'green';
+  ctx.lineWidth = 3;
+  for(var i = -len+1; i <= len-1; i++){
+  	var x = dx*i;
+    var y = scale*(amplitude2*Math.sin(Math.sign(phase2)*Math.abs(phase2)+omega2*time-k2*(x/scale)));
+    if(i == -len+1) ctx.moveTo(cnv.width/2+x,cnv.height/2-y);
+    else ctx.lineTo(cnv.width/2+x,cnv.height/2-y);
+  }
+  ctx.stroke();
   
+  ctx.strokeStyle = 'red';
+  ctx.fillStyle = 'red';
+  ctx.beginPath();
+  ctx.moveTo(cnv.width/2,cnv.height/2);
+  var where = scale*(amplitude2*Math.sin(Math.sign(phase2)*Math.abs(phase2)+omega2*time));
+  ctx.lineTo(cnv.width/2,cnv.height/2-where);
+  ctx.fillRect(cnv.width/2-3,cnv.height/2-where,6,6);
+  ctx.stroke();
   
- <p>
-The sum wave can take a number of different shapes depending on the parameters of the two waves that constitute it. For instance, <i>standing waves</i> and <i>beats</i> are examples of such wave patterns.
-</p>
-
-<h3>
-Standing Waves
-</h3>
-
-<p>
-When the two waves have different directions of propagation, it is possible to spot a pattern (in the sum box) constisting of <i>nodes</i> (points on the \(x\)-axis whose elongation is always \(y=0\)) and <i>antinodes</i> (points on the \(x\)-axis whose amplitude of oscillation is maximal).
-</p>
-
-<p>
-This behaviour of the sum wave can be mathematically justified in the following way:
-
-$$y=y_1+y_2=A\sin(wt+kx)+A\sin(wt-kx)=2A\sin(wt)\cos(kx)$$
-
-Here we assumed that the amplitudes, angular frequencies and wavenumber of the two waves are the same, their directions of propagation over time different (note the change in the sign before \(kx\)), and used the trigonometric identity \(\sin a + \sin b = 2\sin(\frac{a+b}{2})\cos(\frac{a-b}{2})\) for real numbers \(a\) and \(b\).
-</p>
-<p>
-Analyzing the obtained formula, we can argue that the term \(2\cos(kx)\) is constant for a single point \(x\) on the \(x\)-axis. Therefore, due to the other term \(\sin(wt)\), every point of the wave will oscillate in place with a fixed amplitude.
-</p>
-
-
-<h3>
-Beats
-</h3>
+  ctx.strokeStyle = 'black';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.strokeText("y="+where.toPrecision(2)+"px",450,260);
   
-</div>  
+  time -= dt*1e-3;
+  drawsum();
+}
+
+function drawsum(){
+	time += dt*1e-3;
+	document.getElementById("timer").innerHTML = "t = "+time.toPrecision(3)+" s";
+
+	var cnv = document.getElementById('sum');
+	var ctx = cnv.getContext('2d');
+  ctx.clearRect(0,0,cnv.width,cnv.height);
+  drawaxes3();
+  ctx.beginPath();
   
-</body>  
-</html>
+	var dx = 0.01;
+  var len = Math.round((cnv.width/2)/dx);
+  ctx.strokeStyle = 'black';
+  ctx.lineWidth = 3;
+  for(var i = -len+1; i <= len-1; i++){
+  	var x = dx*i;
+    var y1 = scale*(amplitude1*Math.sin(Math.sign(phase1)*Math.abs(phase1)+omega1*time-k1*(x/scale)));
+    var y2 = scale*(amplitude2*Math.sin(Math.sign(phase2)*Math.abs(phase2)+omega2*time-k2*(x/scale)));
+    var y = y1+y2;
+    if(i == -len+1) ctx.moveTo(cnv.width/2+x,cnv.height/2-y);
+    else ctx.lineTo(cnv.width/2+x,cnv.height/2-y);
+  }
+  ctx.stroke();
+  
+  ctx.strokeStyle = 'red';
+  ctx.fillStyle = 'red';
+  ctx.beginPath();
+  ctx.moveTo(cnv.width/2,cnv.height/2);
+  var where1 = scale*(amplitude1*Math.sin(Math.sign(phase1)*Math.abs(phase1)+omega1*time));
+  var where2 = scale*(amplitude2*Math.sin(Math.sign(phase2)*Math.abs(phase2)+omega2*time));
+  var where = where1+where2;
+  ctx.lineTo(cnv.width/2,cnv.height/2-where);
+  ctx.fillRect(cnv.width/2-3,cnv.height/2-where,6,6);
+  ctx.stroke();
+  
+  ctx.strokeStyle = 'black';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.strokeText("y="+where.toPrecision(2)+"px",450,260);
+}
